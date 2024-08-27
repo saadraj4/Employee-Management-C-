@@ -1,115 +1,92 @@
 using System;
 public class crudOperations
 {
-    public static void CreateEmployee(MongoDBService mongoService)
+    public static void CreateStudent(MongoDBService mongoService)
     {
-        var employee = new Employee();
+        var student = new Student();
 
-        Console.Write("Enter Employee ID: ");
-        employee.EmployeeId = Console.ReadLine() ?? string.Empty;
+        Console.Write("Enter Student ID: ");
+        student.StudentId = Console.ReadLine() ?? string.Empty;
 
         Console.Write("Enter Name: ");
-        employee.Name = Console.ReadLine() ?? string.Empty;
-
-        Console.Write("Enter Position: ");
-        employee.Position = Console.ReadLine() ?? string.Empty;
+        student.Name = Console.ReadLine() ?? string.Empty;
 
         Console.Write("Enter Department: ");
-        employee.Department = Console.ReadLine() ?? string.Empty;
+        student.Department = Console.ReadLine() ?? string.Empty;
 
         Console.Write("Enter Email: ");
-        employee.Email = Console.ReadLine() ?? string.Empty;
+        student.Email = Console.ReadLine() ?? string.Empty;
 
-        employee.DateOfJoining = DateTime.Now;
+        student.DateOfJoining = DateTime.Now;
 
-        Console.Write("Enter Salary: ");
-        string salaryInput = Console.ReadLine()?? string.Empty;
+        student.IsActive = true;
 
-        if (double.TryParse(salaryInput, out double salary))
-        {
-            employee.Salary = salary;
-        }
-        else
-        {
-            Console.WriteLine("Invalid salary input. Setting salary to 0.");
-            employee.Salary = 0;
-        }
-
-        employee.IsActive = true;
-
-        mongoService.CreateEmployee(employee);
-        Console.WriteLine("Employee created successfully.");
+        mongoService.CreateStudent(student);
+        Console.WriteLine("Student created successfully.");
     }
-    public static void ViewAllEmployees(MongoDBService mongoService)
+    public static void ViewAllStudents(MongoDBService mongoService)
     {
-        var employees = mongoService.GetEmployees();
+        var Students = mongoService.GetStudents();
 
-        if (employees.Count > 0)
+        if (Students.Count > 0)
         {
-            foreach (var emp in employees)
+            foreach (var emp in Students)
             {
-                Console.WriteLine($"\nID: {emp.EmployeeId}\nName: {emp.Name}\nPosition: {emp.Position}\nDepartment: {emp.Department}\nEmail: {emp.Email}\nDate of Joining: {emp.DateOfJoining}\nSalary: {emp.Salary}\nStatus: {(emp.IsActive ? "Active" : "Inactive")}\n");
+                Console.WriteLine($"\nID: {emp.StudentId}\nName: {emp.Name}\nDepartment: {emp.Department}\nEmail: {emp.Email}\nDate of Joining: {emp.DateOfJoining}\nStatus: {(emp.IsActive ? "Active" : "Inactive")}\n");
             }
         }
         else
         {
-            Console.WriteLine("No employees found.");
+            Console.WriteLine("No Students found.");
         }
     }
 
-    public static void UpdateEmployee(MongoDBService mongoService)
+    public static void UpdateStudent(MongoDBService mongoService)
     {
-        Console.Write("Enter Employee ID to update: ");
-        string? employeeId = Console.ReadLine();
+        Console.Write("Enter Student ID to update: ");
+        string? StudentId = Console.ReadLine();
 
-        var employee = mongoService.GetEmployees().Find(emp => emp.EmployeeId == employeeId);
+        var student = mongoService.GetStudents().Find(emp => emp.StudentId == StudentId);
 
-        if (employee != null && employee.Id != null)
+        if (student != null && student.Id != null)
         {
             Console.Write("Enter New Name (leave blank to keep current): ");
             string? newName = Console.ReadLine();
-            if (!string.IsNullOrEmpty(newName)) employee.Name = newName;
+            if (!string.IsNullOrEmpty(newName)) student.Name = newName;
 
-            Console.Write("Enter New Position (leave blank to keep current): ");
-            string? newPosition = Console.ReadLine();
-            if (!string.IsNullOrEmpty(newPosition)) employee.Position = newPosition;
 
             Console.Write("Enter New Department (leave blank to keep current): ");
             string? newDepartment = Console.ReadLine();
-            if (!string.IsNullOrEmpty(newDepartment)) employee.Department = newDepartment;
+            if (!string.IsNullOrEmpty(newDepartment)) student.Department = newDepartment;
 
             Console.Write("Enter New Email (leave blank to keep current): ");
             string? newEmail = Console.ReadLine();
-            if (!string.IsNullOrEmpty(newEmail)) employee.Email = newEmail;
+            if (!string.IsNullOrEmpty(newEmail)) student.Email = newEmail;
 
-            Console.Write("Enter New Salary (leave blank to keep current): ");
-            string? salaryInput = Console.ReadLine();
-            if (!string.IsNullOrEmpty(salaryInput)) employee.Salary = Convert.ToDouble(salaryInput);
-
-            mongoService.UpdateEmployee(employee.Id, employee);
-            Console.WriteLine("Employee updated successfully.");
+            mongoService.UpdateStudent(student.Id, student);
+            Console.WriteLine("Student updated successfully.");
         }
         else
         {
-            Console.WriteLine("Employee not found.");
+            Console.WriteLine("Student not found.");
         }
     }
 
-    public static void DeleteEmployee(MongoDBService mongoService)
+    public static void DeleteStudent(MongoDBService mongoService)
     {
-        Console.Write("Enter Employee ID to delete: ");
-        string? employeeId = Console.ReadLine();
+        Console.Write("Enter Student ID to delete: ");
+        string? StudentId = Console.ReadLine();
 
-        var employee = mongoService.GetEmployees().Find(emp => emp.EmployeeId == employeeId);
+        var student = mongoService.GetStudents().Find(emp => emp.StudentId == StudentId);
 
-        if (employee != null && employee.Id != null)
+        if (student != null && student.Id != null)
         {
-            mongoService.DeleteEmployee(employee.Id);
-            Console.WriteLine("Employee deleted successfully.");
+            mongoService.DeleteStudent(student.Id);
+            Console.WriteLine("Student deleted successfully.");
         }
         else
         {
-            Console.WriteLine("Employee not found.");
+            Console.WriteLine("Student not found.");
         }
     }
 }

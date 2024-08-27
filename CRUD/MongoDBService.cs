@@ -4,22 +4,22 @@ using System.Linq;
 
 public class MongoDBService
 {
-    private readonly IMongoCollection<Employee> _employees;
+    private readonly IMongoCollection<Student> _students;
 
     public MongoDBService()
     {
         var client = new MongoClient("mongodb://localhost:27017"); // Your MongoDB connection string
-        var database = client.GetDatabase("EmployeeDB");
-        _employees = database.GetCollection<Employee>("Employees");
+        var database = client.GetDatabase("StudentDB");
+        _students = database.GetCollection<Student>("Students");
     }
 
-    public List<Employee> GetEmployees() => _employees.Find(emp => true).ToList();
+    public List<Student> GetStudents() => _students.Find(emp => true).ToList();
 
-    public Employee GetEmployeeById(string id) => _employees.Find(emp => emp.Id == id).FirstOrDefault();
+    public Student GetEmployeeById(string id) => _students.Find(student => student.Id == id).FirstOrDefault();
 
-    public void CreateEmployee(Employee employee) => _employees.InsertOne(employee);
+    public void CreateStudent(Student student) => _students.InsertOne(student);
 
-    public void UpdateEmployee(string id, Employee employeeIn) => _employees.ReplaceOne(emp => emp.Id == id, employeeIn);
+    public void UpdateStudent(string id, Student studentIn) => _students.ReplaceOne(student => student.Id == id, studentIn);
 
-    public void DeleteEmployee(string id) => _employees.DeleteOne(emp => emp.Id == id);
+    public void DeleteStudent(string id) => _students.DeleteOne(student => student.Id == id);
 }

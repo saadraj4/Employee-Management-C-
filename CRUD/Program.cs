@@ -10,11 +10,11 @@ class Program
 
         while (continueRunning)
         {
-            Console.WriteLine("\nEmployee Management System");
-            Console.WriteLine("1. Create Employee");
-            Console.WriteLine("2. View All Employees");
-            Console.WriteLine("3. Update Employee");
-            Console.WriteLine("4. Delete Employee");
+            Console.WriteLine("\nStudents Management System");
+            Console.WriteLine("1. Create Students");
+            Console.WriteLine("2. View All Students");
+            Console.WriteLine("3. Update Students");
+            Console.WriteLine("4. Delete Students");
             Console.WriteLine("5. Exit");
             Console.Write("Select an option: ");
 
@@ -23,16 +23,16 @@ class Program
             switch (choice)
             {
                 case "1":
-                    crudOperations.CreateEmployee(mongoService);
+                    crudOperations.CreateStudent(mongoService);
                     break;
                 case "2":
-                    crudOperations.ViewAllEmployees(mongoService);
+                    crudOperations.ViewAllStudents(mongoService);
                     break;
                 case "3":
-                    crudOperations.UpdateEmployee(mongoService);
+                    crudOperations.UpdateStudent(mongoService);
                     break;
                 case "4":
-                    crudOperations.DeleteEmployee(mongoService);
+                    crudOperations.DeleteStudent(mongoService);
                     break;
                 case "5":
                     continueRunning = false;
